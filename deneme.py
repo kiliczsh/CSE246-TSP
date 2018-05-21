@@ -2,9 +2,10 @@ import random
 import numpy
 import math
 import copy
+import sys
 import matplotlib.pyplot as plt
-infile = open('example-input-1.txt', 'r')
-outfile = open('output.txt', 'w')
+infile = open(sys.argv[1], 'r')
+outfile = open(sys.argv[2], 'w')
 legend = list()
 city = list()
 for line in infile:
