@@ -24,56 +24,27 @@ class Node:
 		return hypot(dx, dy)
 
 def parse_input_route(filename):
-	"""
-	returns initial route as read from input file, None if parsing errors occur
-	filename - name of the input file with '.tsp' extension
-	"""
+
 	dimension = sum(1 for line in open(filename))
-	filename.close()
 	f = open(filename, 'r')
 	route = []
-	dimension_found = False
-	node_section_found = False
-
-	# Parse header
-	for line in f:
-		if "DIMENSION" in line:
-			tokens = line.split()
-			dimension = int(tokens[-1])
-			dimension_found = True
-		if "NODE_COORD_SECTION" in line:
-			node_section_found = True
-			break
-
-	# Check for parsing errors in header
-	if not dimension_found:
-		print("99 TSP - Parsing error: DIMENSION not found")
-		f.close()
-		return None
-	elif not node_section_found:
-		print("99 TSP - Parsing error: NODE_COORD_SECTION header not found")
-		f.close()
-		return None
-
 	# read lines into coordinate system
 	for line in f:
-		if "EOF" in line:
-			break
 		coords = get_coords(line)
 		if not coords:
-			print("99 TSP - Parsing error: Invalid node data found")
+			print("Parsing error: Invalid node data found")
 			f.close()
 			return None
 		route.append(Node(coords))
-	print(route)
+	print(dimension)
+	for a in (route):
+		print(a)
 	f.close()
-
 	# Check for parsing error with nodes
 	if len(route) != dimension:
-		print("99 TSP - Parsing error: number of nodes found does not match dimension")
+		print("Parsing error: number of nodes found does not match dimension")
 		return None
-	print("Type of route: ",end="")
-	print(type(route))
+	# route is a <list>
 	return route
 
 def get_coords(line):
@@ -159,11 +130,8 @@ def print_results(route, filename, time, startnode):
 	time - time to run 2opt
 	startnode - start node of original tour if randomized
 	"""
-	outfile = open(sys.argv[2], 'w')
 	for node in route:
-		print(node)
-        outfile.write(str(node))
-        outfile.write("\n")		
+		print(node)	
 	print(-1)
 	print("Original input file : " + filename)
 	print("Dimension : " + str(len(route)))
@@ -176,11 +144,11 @@ def print_results(route, filename, time, startnode):
 def main():
 	# Check to make sure input file is given
 	if len(argv) == 1:
-		print("99 TSP - No input file")
+		print("No input file")
 		return
 	# Check to make sure input file is correct type	
 	elif ".tsp" != argv[1][-4:]:
-		print("99 TSP - Input file must contain \'.tsp\' extension")
+		print("Input file must contain \'.tsp\' extension")
 		return
 
 	# Terminate early if parsing errors are found
